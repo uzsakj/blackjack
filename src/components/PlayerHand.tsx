@@ -11,16 +11,15 @@ export const PlayerHand: FC = (): React.ReactNode => {
         <div className="flex flex-col items-center mb-6">
             <div className="text-xl font-bold mb-4 text-white">Player</div>
 
-            <div className="relative w-64 h-48">
+            <div className="relative w-64 h-64">
                 {player.hand.map((c, i) => {
-                    const offset = i * 30;
                     return (
                         <div
                             key={i}
                             className="absolute"
                             style={{
-                                bottom: `${offset}px`,
-                                left: `${offset}px`,
+                                bottom: `${i * 30}px`,
+                                left: `${i * 30}px`,
                                 zIndex: i,
                             }}
                         >
