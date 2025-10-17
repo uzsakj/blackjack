@@ -1,17 +1,19 @@
 "use client";
-import React, { FC } from "react";
-import { Card } from "../features/blackjack/blackjackTypes";
+import React from "react";
+import Image from "next/image";
+import type { Card } from "@/features/blackjack/blackjackTypes";
 
-export interface CardViewProps {
-    card: Card
-}
-
-export const CardView: FC<CardViewProps> = ({ card }): React.ReactNode => {
-    // If the card is hidden, show a back
+export const CardView = ({ card }: { card: Card }) => {
     if (card.state === "dealerHidden") {
         return (
-            <div className="border rounded-xl bg-gray-800 shadow-md w-12 h-16 flex items-center justify-center text-white">
-                ❓
+            <div className="w-12 h-16 relative bg-white">
+                <Image
+                    src="/card-back.svg"
+                    alt="Card Back"
+                    fill
+                    style={{ objectFit: "contain" }}
+                    className="rounded-xs"
+                />
             </div>
         );
     }
