@@ -1,6 +1,9 @@
 "use client";
+import React, { FC } from "react";
 import { BlackjackTable } from "@/components/BlackjackTable";
 
-export default function BlackjackPage() {
+const TablePage: FC = (): React.ReactNode => {
     return <BlackjackTable />;
-}
+};
+
+export default TablePage;
