@@ -6,7 +6,6 @@ import { CardView } from "./CardView";
 
 export const DealerHand: FC = (): React.ReactNode => {
     const dealer = useSelector((s: RootState) => s.blackjack.dealer);
-    const phase = useSelector((s: RootState) => s.blackjack.phase);
 
     return (
         <div className="flex flex-col items-center mb-6">
@@ -16,7 +15,7 @@ export const DealerHand: FC = (): React.ReactNode => {
                     <CardView key={i} card={c} />
                 ))}
             </div>
-            {phase !== "playerTurn" && <div className="text-lg mt-2 text-white">Total: {dealer.total}</div>}
+            <div className="text-lg mt-2 text-white">Total: {dealer.total}</div>
         </div>
     );
 };
