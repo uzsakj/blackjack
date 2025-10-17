@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { CardView } from "./CardView";
 
-export const DealerHand = () => {
+export const DealerHand: FC = (): React.ReactNode => {
     const dealer = useSelector((s: RootState) => s.blackjack.dealer);
     const phase = useSelector((s: RootState) => s.blackjack.phase);
 
