@@ -1,8 +1,8 @@
 export type CardState = "deck" | "player" | "dealerVisible" | "dealerHidden";
 
 export type Card = {
-    value: string;
-    suit: string;
+    value?: string;
+    suit?: string;
     state: CardState;
 };
 

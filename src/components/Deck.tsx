@@ -2,6 +2,7 @@ import { FC, JSX } from "react";
 import { useSelector } from "react-redux";
 import { Card } from "../features/blackjack/blackjackTypes";
 import { RootState } from "../store/store";
+import { CardView } from "./CardView";
 
 interface DeckProps {
     maxVisible?: number;
@@ -18,9 +19,11 @@ export const Deck: FC<DeckProps> = ({ maxVisible = 5 }): React.ReactNode => {
                 {Array.from({ length: Math.min(remaining, maxVisible) }).map((_, i) => (
                     <div
                         key={i}
-                        className="absolute top-0 left-0 w-16 h-20 border rounded-xl bg-gray-800 shadow-md"
+                        className="absolute top-0 left-0 w-16 h-20"
                         style={{ transform: `translate(${i * 2}px, ${i * 2}px)` }}
-                    />
+                    >
+                        <CardView card={{ state: "deck" }}></CardView>
+                    </div>
                 ))}
             </div>
         </div>
