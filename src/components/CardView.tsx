@@ -1,8 +1,12 @@
 "use client";
-import React from "react";
-import type { Card } from "@/features/blackjack/blackjackTypes";
+import React, { FC } from "react";
+import { Card } from "../features/blackjack/blackjackTypes";
 
-export const CardView = ({ card }: { card: Card }) => {
+export interface CardViewProps {
+    card: Card
+}
+
+export const CardView: FC<CardViewProps> = ({ card }): React.ReactNode => {
     // If the card is hidden, show a back
     if (card.state === "dealerHidden") {
         return (
