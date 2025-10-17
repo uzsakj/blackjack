@@ -15,11 +15,11 @@ export const Deck: FC<DeckProps> = ({ maxVisible = 5 }): React.ReactNode => {
     return (
         <div className="flex flex-col items-center mb-6">
             <div className="text-white mb-2">Deck ({remaining} cards)</div>
-            <div className="relative w-16 h-20">
+            <div className="relative w-22 h-32">
                 {Array.from({ length: Math.min(remaining, maxVisible) }).map((_, i) => (
                     <div
                         key={i}
-                        className="absolute top-0 left-0 w-16 h-20"
+                        className="absolute top-0 left-0 w-22 h-32"
                         style={{ transform: `translate(${i * 2}px, ${i * 2}px)` }}
                     >
                         <CardView card={{ state: "deck" }}></CardView>
