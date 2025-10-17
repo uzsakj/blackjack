@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { startGame, playerHit, playerStand, dealerTurn } from "@/features/blackjack/blackjackSlice";
 
-export const Controls = () => {
+export const Controls: FC = (): React.ReactNode => {
     const dispatch = useDispatch();
     const { phase, result } = useSelector((s: RootState) => s.blackjack);
 
