@@ -1,29 +1,56 @@
-"use client";
+'use client';
+import { FC, useMemo } from "react";
 import { motion } from "framer-motion";
 import { DealerHand } from "./DealerHand";
 import { PlayerHand } from "./PlayerHand";
 import { Deck } from "./Deck";
 import { Controls } from "./Controls";
-import { FC } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useLobby } from "../hooks/useLobby";
+import { useLobbyPlayers } from "../hooks/useLobbyPlayers";
+import { useLobbyState } from "../hooks/useLobbyState";
+import type { PlayerState, DealerState } from "@/features/blackjack/blackjackTypes";
 
-export const BlackjackTable: FC = (): React.ReactNode => {
-    const { player, phase, result } = useSelector(
-        (s: RootState) => s.blackjack
-    );
+interface BlackjackTableProps {
+    code: string;        // lobby code
+    seatIndex: number;   // current player's seat index
+}
 
-    // Determine message text
-    let message = "";
-    if (player.blackjack) message = "BLACKJACK!";
-    else if (player.busted) message = "BUSTED!";
-    else if (phase === "result") {
-        if (result === "win") message = "YOU WIN!";
-        else if (result === "lose") message = "YOU LOSE!";
-        else message = "PUSH!";
+export const BlackjackTable: FC<BlackjackTableProps> = ({ code, seatIndex }) => {
+
+    const { lobby } = useLobby(code);
+
+    const players = useLobbyPlayers(lobby?.id);
+    const [state, loadingState] = useLobbyState(lobby?.id);
+
+    // Determine this player's state
+    const playerState: PlayerState | undefined = state?.players?.[seatIndex];
+    // Determine the dealer's state
+    const dealerState: DealerState | undefined = state?.dealer;
+
+
+    // Message logic
+    const message = useMemo(() => {
+        if (!playerState) return "";
+        if (playerState.blackjack) return "BLACKJACK!";
+        if (playerState.busted) return "BUSTED!";
+        if (state?.phase === "result") {
+            switch (playerState.result) {
+                case "win": return "YOU WIN!";
+                case "lose": return "YOU LOSE!";
+                case "push": return "PUSH!";
+            }
+        }
+        return "";
+    }, [playerState, state?.phase]);
+
+    if (!lobby || loadingState) {
+        return (
+            <div className="flex items-center justify-center min-h-screen text-white text-2xl">
+                Loading lobby...
+            </div>
+        );
     }
 
-    // Choose color based on outcome
     const colorMap: Record<string, string> = {
         BLACKJACK: "text-green-400",
         BUSTED: "text-red-500",
@@ -52,8 +79,10 @@ export const BlackjackTable: FC = (): React.ReactNode => {
                 <div className="absolute inset-0 rounded-[9999px] bg-gradient-to-b from-white/10 to-transparent" />
 
                 <div className="z-10 flex flex-col items-center w-full h-full justify-between">
-                    <DealerHand />
+                    {/* Dealer */}
+                    <DealerHand dealerState={dealerState} />
 
+                    {/* Message */}
                     <motion.div
                         key={message}
                         initial={{ scale: 0.8, opacity: 0 }}
@@ -64,14 +93,26 @@ export const BlackjackTable: FC = (): React.ReactNode => {
                         {message}
                     </motion.div>
 
+                    {/* Deck */}
                     <div className="fixed right-1/5 top-1/2 -translate-y-1/3">
                         <Deck />
                     </div>
 
-                    <PlayerHand />
+                    {/* Current Player */}
+                    <PlayerHand playerState={playerState} />
 
-                    <div className="fixed  bottom-0.5 -translate-y-1/2">
-                        <Controls />
+                    {/* Other Players */}
+                    <div className="absolute top-1/3 left-1/4 flex gap-4">
+                        {players
+                            ?.filter((_, i) => i !== seatIndex)
+                            .map((p) => (
+                                <PlayerHand key={p.id} playerState={p} />
+                            ))}
+                    </div>
+
+                    {/* Controls */}
+                    <div className="fixed bottom-0.5 -translate-y-1/2">
+                        <Controls lobbyId={lobby?.id} playerId={playerState?.id} />
                     </div>
                 </div>
             </motion.div>

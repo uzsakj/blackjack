@@ -1,54 +1,42 @@
-"use client";
+'use client';
 import React, { FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store/store";
-import { startGame, playerHit, playerStand, dealerTurn } from "@/features/blackjack/blackjackSlice";
+import { useGameActions } from "../hooks/useGameActions";
 
-export const Controls: FC = (): React.ReactNode => {
-    const dispatch = useDispatch<AppDispatch>();
-    const { phase } = useSelector((s: RootState) => s.blackjack);
+interface ControlsProps {
+    lobbyId?: string;
+    playerId?: string;
+}
+export const Controls: FC<ControlsProps> = ({ lobbyId, playerId }) => {
+    const actions = useGameActions(lobbyId!);
 
-    const handleStand = () => {
-        dispatch(playerStand());
-        dispatch(dealerTurn());
-    };
+    if (!lobbyId || !playerId) return null;
 
     return (
-        <div className="flex flex-wrap gap-3 justify-center mt-4">
-            {phase === "idle" && (
-                <button
-                    onClick={() => dispatch(startGame())}
-                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl"
-                >
-                    Start Game
-                </button>
-            )}
-            {phase === "playerTurn" && (
-                <>
-                    <button
-                        onClick={() => dispatch(playerHit())}
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl"
-                    >
-                        Hit
-                    </button>
-                    <button
-                        onClick={handleStand}
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-xl"
-                    >
-                        Stand
-                    </button>
-                </>
-            )}
-            {phase === "result" && (
-                <>
-                    <button
-                        onClick={() => dispatch(startGame())}
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl"
-                    >
-                        Play Again
-                    </button>
-                </>
-            )}
+        <div className="flex gap-4">
+            <button
+                onClick={() => actions.hit(playerId)}
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Hit
+            </button>
+            <button
+                onClick={() => actions.stand(playerId)}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Stand
+            </button>
+            <button
+                onClick={() => actions.double(playerId)}
+                className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Double
+            </button>
+            <button
+                onClick={() => actions.resetRound()}
+                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            >
+                Reset
+            </button>
         </div>
     );
 };

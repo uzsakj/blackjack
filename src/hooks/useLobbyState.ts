@@ -1,43 +1,58 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import type { LobbyState } from '@/features/blackjack/blackjackTypes';
 
-export function useLobbyState(lobbyId: string) {
-    const [state, setState] = useState<any>(null);
-
-    async function load() {
-        const { data } = await supabase
-            .from("lobby_state")
-            .select("*")
-            .eq("lobby_id", lobbyId)
-            .single();
-
-        if (data) setState(data.state);
-    }
+export function useLobbyState(lobbyId?: string): [LobbyState | null, boolean] {
+    const [state, setState] = useState<LobbyState | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (!lobbyId) return;
+        if (!lobbyId) {
+            setState(null);
+            setLoading(true);
+            return;
+        }
 
-        load();
 
+        const fetchState = async () => {
+            setLoading(true);
+
+            const { data, error } = await supabase
+                .from('lobby_state')
+                .select('state')
+                .eq('lobby_id', lobbyId)
+                .single();
+
+            if (error) {
+                console.error('Error fetching lobby state:', error);
+                setState(null);
+            } else {
+                setState(data?.state || null);
+            }
+
+            setLoading(false);
+        };
+
+        fetchState();
+
+        // Realtime subscription 
         const channel = supabase
-            .channel(`state-${lobbyId}`)
+            .channel(`lobby-${lobbyId}`)
             .on(
-                "postgres_changes",
-                {
-                    event: "UPDATE",
-                    schema: "public",
-                    table: "lobby_state",
-                    filter: `lobby_id=eq.${lobbyId}`
-                },
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'lobby_state', filter: `lobby_id=eq.${lobbyId}` },
                 (payload) => {
                     setState(payload.new.state);
                 }
             )
             .subscribe();
 
-        return () => supabase.removeChannel(channel);
+        // Cleanup on unmount
+        return () => {
+            if (channel) supabase.removeChannel(channel);
+        };
     }, [lobbyId]);
 
-    return [state, setState] as const;
+    return [state, loading];
 }

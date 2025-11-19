@@ -1,40 +1,24 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
+import type { PlayerState } from "@/features/blackjack/blackjackTypes";
 
-export function useLobbyPlayers(lobbyId: string) {
-    const [players, setPlayers] = useState<any[]>([]);
-
-    async function load() {
-        const { data } = await supabase
-            .from("lobby_players")
-            .select("*")
-            .eq("lobby_id", lobbyId)
-            .order("seat_index");
-
-        setPlayers(data || []);
-    }
+export function useLobbyPlayers(lobbyId?: string): PlayerState[] {
+    const [players, setPlayers] = useState<PlayerState[]>([]);
 
     useEffect(() => {
         if (!lobbyId) return;
 
-        load();
+        const fetchPlayers = async () => {
+            const { data } = await supabase
+                .from("lobby_state")
+                .select("state")
+                .eq("lobby_id", lobbyId)
+                .single();
 
-        const channel = supabase
-            .channel(`players-${lobbyId}`)
-            .on(
-                "postgres_changes",
-                {
-                    event: "*",
-                    schema: "public",
-                    table: "lobby_players",
-                    filter: `lobby_id=eq.${lobbyId}`
-                },
-                () => load()
-            )
-            .subscribe();
+            setPlayers(data?.state?.players || []);
+        };
 
-        return () => supabase.removeChannel(channel);
+        fetchPlayers();
     }, [lobbyId]);
 
     return players;

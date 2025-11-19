@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { LobbyState } from '../features/blackjack/blackjackTypes';
 
 export function useLobby(code: string) {
-    const [lobby, setLobby] = useState(null);
+    const [lobby, setLobby] = useState<LobbyState | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabaseClient';
 
 export function useGameActions(lobbyId: string) {
     const channel = supabase.channel(`game-${lobbyId}`);
+    channel.subscribe();
 
     function sendAction(type: string, payload: any = {}) {
         channel.send({
