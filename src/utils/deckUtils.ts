@@ -27,3 +27,19 @@ export function takeCards(deck: Card[], count: number, state: CardState = "deck"
     const newDeck = deck.slice(count);
     return { taken, newDeck };
 }
+
+export function cubicBezier(p0: { x: number, y: number }, p1: { x: number, y: number }, p2: { x: number, y: number }, p3: { x: number, y: number }, t: number) {
+    const x =
+        Math.pow(1 - t, 3) * p0.x +
+        3 * Math.pow(1 - t, 2) * t * p1.x +
+        3 * (1 - t) * Math.pow(t, 2) * p2.x +
+        Math.pow(t, 3) * p3.x;
+
+    const y =
+        Math.pow(1 - t, 3) * p0.y +
+        3 * Math.pow(1 - t, 2) * t * p1.y +
+        3 * (1 - t) * Math.pow(t, 2) * p2.y +
+        Math.pow(t, 3) * p3.y;
+
+    return { x, y };
+}

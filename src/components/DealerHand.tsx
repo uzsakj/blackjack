@@ -15,7 +15,7 @@ export const DealerHand: FC = (): React.ReactNode => {
                     <CardView key={i} card={c} />
                 ))}
             </div>
-            <div className="text-lg mt-2 text-white">Total: {dealer.total}</div>
+            {!!dealer.total && (<div className="text-lg mt-2 text-white">Total: {dealer.total}</div>)}
         </div>
     );
 };
