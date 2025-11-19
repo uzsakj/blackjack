@@ -9,7 +9,7 @@ export const PlayerHand: FC = (): React.ReactNode => {
 
     return (
         <div className="flex flex-col items-center mb-6">
-            <div className="text-xl font-bold mb-4 text-white">Player</div>
+
 
             <div className="relative w-64 h-64">
                 {player.hand.map((c, i) => {
@@ -28,10 +28,8 @@ export const PlayerHand: FC = (): React.ReactNode => {
                     );
                 })}
             </div>
+            {!!player.total && < div className="text-lg mt-4 text-white">Total: {player.total}</div>}
 
-            <div className="text-lg mt-4 text-white">Total: {player.total}</div>
-            {player.busted && <div className="text-red-500 font-bold mt-1">BUST!</div>}
-            {player.blackjack && <div className="text-green-500 font-bold mt-1">BLACKJACK!</div>}
-        </div>
+        </div >
     );
 };

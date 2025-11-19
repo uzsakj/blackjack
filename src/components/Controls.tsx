@@ -1,11 +1,11 @@
 "use client";
 import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
 import { startGame, playerHit, playerStand, dealerTurn } from "@/features/blackjack/blackjackSlice";
 
 export const Controls: FC = (): React.ReactNode => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { phase, result } = useSelector((s: RootState) => s.blackjack);
 
     const handleStand = () => {
@@ -41,11 +41,6 @@ export const Controls: FC = (): React.ReactNode => {
             )}
             {phase === "result" && (
                 <>
-                    <div className="text-lg font-bold text-white bg-gray-800 px-4 py-2 rounded-xl">
-                        {result === "win" && "YOU WIN!"}
-                        {result === "lose" && "YOU LOSE!"}
-                        {result === "draw" && "DRAW!"}
-                    </div>
                     <button
                         onClick={() => dispatch(startGame())}
                         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl"
