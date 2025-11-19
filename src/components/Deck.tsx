@@ -1,4 +1,4 @@
-import { FC, JSX } from "react";
+import { FC } from "react";
 import { useSelector } from "react-redux";
 import { Card } from "../features/blackjack/blackjackTypes";
 import { RootState } from "../store/store";

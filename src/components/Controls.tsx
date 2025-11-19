@@ -6,7 +6,7 @@ import { startGame, playerHit, playerStand, dealerTurn } from "@/features/blackj
 
 export const Controls: FC = (): React.ReactNode => {
     const dispatch = useDispatch<AppDispatch>();
-    const { phase, result } = useSelector((s: RootState) => s.blackjack);
+    const { phase } = useSelector((s: RootState) => s.blackjack);
 
     const handleStand = () => {
         dispatch(playerStand());
