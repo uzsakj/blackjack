@@ -25,7 +25,7 @@ export const Deck: FC<DeckProps> = ({ maxVisible = 5 }): React.ReactNode => {
                         className="absolute top-0 left-0 w-22 h-32"
                         style={{ transform: `translate(${i * 2}px, ${i * 2}px)` }}
                     >
-                        <CardView card={{ state: "deck" }}></CardView>
+                        <CardView card={{ state: "deck", value: "A", suit: "♠" }}></CardView>
                     </div>
                 ))}
             </div>

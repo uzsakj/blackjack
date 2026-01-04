@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { CardView } from "./CardView";
-import { Card } from "../features/blackjack/blackjackTypes";
 
 export const PlayerHand: FC = (): React.ReactNode => {
     const player = useSelector((s: RootState) => s.blackjack.player);
