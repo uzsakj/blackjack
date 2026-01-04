@@ -9,7 +9,7 @@ export const DealerHand: FC = (): React.ReactNode => {
 
     return (
         <div className="flex flex-col items-center mb-6">
-            <div className="text-xl font-bold mb-2 text-white">Dealer</div>
+            {!!dealer.hand.length && <div className="text-xl font-bold mb-2 text-white">Dealer</div>}
             <div className="flex gap-2">
                 {dealer.hand.map((c, i) => (
                     <CardView key={i} card={c} />
