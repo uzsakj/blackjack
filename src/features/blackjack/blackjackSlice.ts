@@ -20,10 +20,10 @@ export const dealerTurn = createAsyncThunk<
 >(
     "blackjack/dealerTurn",
     async (_, { getState, dispatch }) => {
-        let state = getState().blackjack;
 
         dispatch(blackjackSlice.actions.revealDealerCard());
         await new Promise((r) => setTimeout(r, 1000));
+        let state = getState().blackjack;
 
         while (state.dealer.total < 17) {
             const { taken, newDeck } = takeCards(state.deck, 1, "dealerVisible");

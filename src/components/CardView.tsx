@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Image from "next/image";
 import type { Card } from "@/features/blackjack/blackjackTypes";
 import { motion, useAnimation } from "framer-motion";
@@ -14,13 +14,10 @@ interface CardViewProps {
 export const CardView: React.FC<CardViewProps> = ({ card, delay = 0 }) => {
     const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
     const [ready, setReady] = useState(false);
-    const [isBackFacing, setIsBackFacing] = useState(
-        card.state === "dealerHidden" || card.state === "deck"
-    );
+    const [isBackFacing, setIsBackFacing] = useState(true);
 
     const color = card.suit === "♥" || card.suit === "♦" ? "text-red-500" : "text-black";
     const controls = useAnimation();
-
 
 
     const generateBezierPath = (start: { x: number, y: number }, end: { x: number, y: number }) => {
@@ -59,8 +56,16 @@ export const CardView: React.FC<CardViewProps> = ({ card, delay = 0 }) => {
 
     }, [card.state]);
 
+    useLayoutEffect(() => {
+        if ((card.state === "dealerHidden" || card.state === "deck") && !isBackFacing) {
+            setIsBackFacing(true);
+            controls.set({ rotateY: 0 });
+        }
+    }, [card.state, isBackFacing, controls]);
+
     useEffect(() => {
         (async () => {
+            console.debug('useEffect', card.state)
             if (!(card.state === "dealerHidden" || card.state === "deck") && isBackFacing) {
                 await controls.start({
                     rotateY: 90,
