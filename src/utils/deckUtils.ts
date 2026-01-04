@@ -1,6 +1,6 @@
-import type { Card, CardState } from "@/features/blackjack/blackjackTypes";
+import type { Card, CardState, Suit } from "@/features/blackjack/blackjackTypes";
 
-const SUITS = ["♠", "♥", "♦", "♣"];
+const SUITS: Suit[] = ["♠", "♥", "♦", "♣"];
 const VALUES = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
 export function createDeck(): Card[] {

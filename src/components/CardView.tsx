@@ -101,7 +101,7 @@ export const CardView: React.FC<CardViewProps> = ({ card, delay = 0 }) => {
                 ease: "easeOut",
             }}
 
-            className="relative w-22 h-32"
+            className="relative w-16 h-24 md:w-22 md:h-32"
             style={{ perspective: 600 }}
         >
             <motion.div
@@ -122,7 +122,7 @@ export const CardView: React.FC<CardViewProps> = ({ card, delay = 0 }) => {
                         transform: "rotateY(0deg)",
                     }}
                 >
-                    <div className="w-22 h-32 relative rounded overflow-hidden shadow-md flex items-center justify-center bg-white">
+                    <div className="w-16 h-24 md:w-22 md:h-32 relative rounded overflow-hidden shadow-md flex items-center justify-center bg-white">
                         <Image
                             src="/card-back.svg"
                             alt="Card Back"
@@ -138,17 +138,17 @@ export const CardView: React.FC<CardViewProps> = ({ card, delay = 0 }) => {
                         transform: "rotateY(180deg)",
                     }}
                 >
-                    <div className="border rounded bg-white shadow-md w-22 h-32 relative">
-                        <div className="absolute top-1 left-1 text-sm flex flex-col items-start">
+                    <div className="border rounded bg-white shadow-md w-16 h-24 md:w-22 md:h-32 relative">
+                        <div className="absolute top-1 left-1 text-xs md:text-sm flex flex-col items-start">
                             <span className="font-bold">{card.value}</span>
                             <span>{card.suit}</span>
                         </div>
 
-                        <div className="absolute inset-0 flex items-center justify-center text-2xl">
+                        <div className="absolute inset-0 flex items-center justify-center text-xl md:text-2xl">
                             {card.suit}
                         </div>
 
-                        <div className="absolute bottom-1 right-1 text-sm flex flex-col items-end rotate-180">
+                        <div className="absolute bottom-1 right-1 text-xs md:text-sm flex flex-col items-end rotate-180">
                             <span className="font-bold">{card.value}</span>
                             <span>{card.suit}</span>
                         </div>

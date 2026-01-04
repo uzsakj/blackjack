@@ -1,19 +1,17 @@
 export type CardState = "deck" | "player" | "dealerVisible" | "dealerHidden";
+export type Suit = "♠" | "♥" | "♦" | "♣";;
 
 export type Card = {
-    value?: string;
-    suit: "♠" | "♥" | "♦" | "♣";
+    value: string;
+    suit: Suit;
     state: CardState;
 };
 
 export interface PlayerState {
-    id: string;           // unique player id (Supabase user id or username)
-    name: string;         // display name
     hand: Card[];
     total: number;
     blackjack: boolean;
     busted: boolean;
-    result?: "win" | "lose" | "push";
     seatIndex: number;
 }
 
@@ -24,10 +22,10 @@ export interface DealerState {
     hidden: Card | null; // dealer’s hidden card
 }
 
-export interface LobbyState {
-    id: string;                   // Supabase lobby id
-    code: string;                 // lobby code
-    players: PlayerState[];
+export interface BlackjackState {
+    player: PlayerState;
     dealer: DealerState;
-    phase: "betting" | "dealing" | "playerTurn" | "dealerTurn" | "result";
+    deck: Card[];
+    result?: "win" | "lose" | "push";
+    phase: "idle" | "dealing" | "playerTurn" | "dealerTurn" | "result";
 }

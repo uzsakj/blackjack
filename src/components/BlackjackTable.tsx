@@ -47,11 +47,11 @@ export const BlackjackTable: FC = (): React.ReactNode => {
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
-                className="w-5/6 h-5/6 rounded-[9999px] bg-emerald-700 border-[16px] border-yellow-900 shadow-2xl flex flex-col justify-between items-center py-6 relative"
+                className="  w-[90vw] h-[90vh] rounded-[130px] xl:rounded-[9999px] bg-emerald-700 border-[16px] border-yellow-900 shadow-2xl flex flex-col justify-between items-center py-6 relative"
             >
-                <div className="absolute inset-0 rounded-[9999px] bg-gradient-to-b from-white/10 to-transparent" />
+                <div className="absolute inset-0 rounded-[170px]  xl:rounded-[9999px] bg-gradient-to-b from-white/10 to-transparent" />
 
-                <div className="z-10 flex flex-col items-center w-full h-full justify-between">
+                <div className="z-10 flex flex-col items-center w-full h-full justify-around">
                     <DealerHand />
 
                     <motion.div
@@ -64,13 +64,13 @@ export const BlackjackTable: FC = (): React.ReactNode => {
                         {message}
                     </motion.div>
 
-                    <div className="fixed right-1/5 top-1/2 -translate-y-1/3">
+                    <div className="fixed right-1/8 top-1/2 -translate-y-1/2">
                         <Deck />
                     </div>
 
                     <PlayerHand />
 
-                    <div className="fixed  bottom-0.5 -translate-y-1/2">
+                    <div className="fixed  bottom-14 -translate-y-1/2">
                         <Controls />
                     </div>
                 </div>
