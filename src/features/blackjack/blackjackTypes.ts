@@ -12,7 +12,6 @@ export interface PlayerState {
     total: number;
     blackjack: boolean;
     busted: boolean;
-    seatIndex: number;
 }
 
 

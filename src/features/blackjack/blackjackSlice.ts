@@ -9,7 +9,7 @@ const initialState: BlackjackState = {
     player: { hand: [], total: 0, busted: false, blackjack: false },
     dealer: { hand: [], total: 0, hidden: null },
     phase: "idle",
-    result: null,
+    result: undefined,
 
 };
 
@@ -59,7 +59,7 @@ const blackjackSlice = createSlice({
             state.player.busted = false;
             state.player.blackjack = false;
             state.phase = "playerTurn";
-            state.result = null;
+            state.result = undefined;
 
             // Deal dealer 2 cards (one hidden)
             const { taken: dealerCards, newDeck: deckAfterDealer } = takeCards(state.deck, 2);
@@ -125,7 +125,6 @@ const blackjackSlice = createSlice({
             else if (state.dealer.total > 21) state.result = "win";
             else if (state.player.total > state.dealer.total) state.result = "win";
             else if (state.player.total < state.dealer.total) state.result = "lose";
-            else state.result = "draw";
         },
 
     },
