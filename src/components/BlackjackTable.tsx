@@ -70,7 +70,7 @@ export const BlackjackTable: FC = (): React.ReactNode => {
 
                     <PlayerHand />
 
-                    <div className="fixed  bottom-14 -translate-y-1/2">
+                    <div className="fixed bottom-14 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]">
                         <Controls />
                     </div>
                 </div>
